@@ -11,7 +11,7 @@ block title
 //- Replace the network title with the editable one
 block network_title
   h2
-    | Network 
+    | 网络 
     a#change-name(href='#')
       span#name= network.name
       i.glyphicon.glyphicon-pencil(style='font-size: 20px;')
@@ -54,12 +54,12 @@ block net_content
   - const nwurl = '/controller/network/' + network.nwid;
 
   a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/private') role='button')
-    = network.private ? "Private" : "Public"
-  a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/easy') role='button') Easy setup
-  a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/routes') role='button') Routes
-  a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/ipAssignmentPools') role='button') Assignment Pools
-  a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/v4AssignMode') role='button') IPv4 Assign Mode
-  a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/v6AssignMode') role='button') IPv6 Assign Mode
+    = network.private ? "私有" : "公有"
+  a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/easy') role='button') 简易安装
+  a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/routes') role='button') 路由
+  a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/ipAssignmentPools') role='button') 地址分配池
+  a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/v4AssignMode') role='button') IPv4 分配模式
+  a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/v6AssignMode') role='button') IPv6 分配模式
   a.btn.btn-primary(style="margin: 5px" href=(nwurl + '/dns') role='button') DNS
 
   if (members !== undefined)
@@ -83,19 +83,19 @@ block net_content
           td(width='3%')
             = ''
           td(width='20%')
-            | Member name
+            | 成员名称
           td(width='10%')
-            | Member ID
+            | 成员ID
           td(width='10%')
-            | Authorized
+            | 经授权的
           td(width='10%')
-            | Active bridge
+            | 主动桥接
           td(width='17%')
-            | IP assignment
+            | IP分配
           td(width='17%')
-            | Peer status
+            | Peer 状态
           td(width='13%')
-            | Peer address / latency
+            | Peer 地址 / 延迟
         each member in members
           - const peer = member.peer;
           tr
@@ -144,9 +144,9 @@ block net_content
                   | (#{peer.latency} ms)
         else
           .alert.alert-info
-            strong There are no members on this network - invite users to join #{network.nwid}
+            strong 此网络上没有成员-请用户加入 #{network.nwid}
 
-  a.btn.btn-default(href='' name='refresh' role='button') Refresh
+  a.btn.btn-default(href='' name='refresh' role='button') 刷新
 
   h3#detail Detail for network
   each value, key in network
@@ -156,4 +156,4 @@ block net_content
       .col-sm-10
         +json_value(value)
 
-  a.btn.btn-default(href='/controller/networks' name='networks' role='button' style='margin-top: 10px;') Networks
+  a.btn.btn-default(href='/controller/networks' name='networks' role='button' style='margin-top: 10px;') 网络

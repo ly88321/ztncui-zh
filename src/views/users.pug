@@ -15,8 +15,8 @@ block users_content
         td(width='15%')
           a(href='/users/' + user.name + '/password') #{user.name}
         td(width='82%')
-          a(href='/users/' + user.name + '/password') set password
+          a(href='/users/' + user.name + '/password') 设置密码
 
     else
       .alert.alert-info
-        strong There are no users on this system
+        strong 此系统上没有用户

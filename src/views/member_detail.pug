@@ -7,7 +7,7 @@ extends network_layout
 
 block net_content
   h4
-    | for member #{member.name} (#{member.address}) in network
+    | for member #{member.name} (#{member.address}) 在网络中
 
   each value, key in member
     .row
@@ -17,4 +17,4 @@ block net_content
         +json_value(value)
 
   a.btn.btn-default(href=('/controller/network/' + member.nwid + "#members") name='networks' role='button' style='margin-top: 10px;')
-    | Members
+    | 成员

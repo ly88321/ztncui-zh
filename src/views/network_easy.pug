@@ -57,30 +57,30 @@ block net_content
 
   form(method='POST' action='')
     .form-group
-      button.btn.btn-link.float-right(type='button' data-toggle='collapse' data-target='#help') Help
+      button.btn.btn-link.float-right(type='button' data-toggle='collapse' data-target='#help') 帮助
       .collapse(id='help')
-        p Please note that this utility only supports IPv4 at this stage.
-        p Use the following button to automatically generate a random network address, otherwise fill in the network address CIDR manually and the IP assignment pool will be automatically calculated for you.  You can manually alter these calculated values.
+        p 请注意，此实用程序在此阶段仅支持IPv4.
+        p 使用以下按钮自动生成随机网络地址，否则手动填写网络地址CIDR，IP分配池将自动为您计算。您可以手动更改这些计算值.
 
     .form-group
-      button.btn.btn-primary(id='genIPv4' type='button' onclick='randomIPv4()') Generate network address
+      button.btn.btn-primary(id='genIPv4' type='button' onclick='randomIPv4()') 生成网络地址
 
     .form-group
-      label(for='networkCIDR') Network address in CIDR notation
+      label(for='networkCIDR') CIDR表示法中的网络地址
       input#networkCIDR.form-control(type='text' name='networkCIDR' onchange='CIDRtoPool(this.value)' placeholder='e.g. 10.11.12.0/24' value=(undefined===network.routes[0]? '' : network.routes[0].target))
 
     .form-group
-      label(for='poolStart') Start of IP assignment pool
+      label(for='poolStart') IP分配池开始
       input#poolStart.form-control(type='text' name='poolStart' placeholder='e.g. 10.11.12.1' value=(undefined===network.ipAssignmentPools[0]? '' : network.ipAssignmentPools[0].ipRangeStart))
 
     .form-group
-      label(for='poolEnd') End of IP assignment pool
+      label(for='poolEnd') IP分配池结束
       input#poolEnd.form-control(type='text' name='poolEnd' placeholder='e.g. 10.11.12.254' value=(undefined===network.ipAssignmentPools[0]? '' : network.ipAssignmentPools[0].ipRangeEnd))
 
     .form-group(style='padding-top: 10px')
-      button.btn.btn-primary(type='submit') Submit
+      button.btn.btn-primary(type='submit') 提交
       = ' '
-      a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') Cancel
+      a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') 取消
 
     if errors
       ul

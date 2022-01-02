@@ -11,8 +11,8 @@ block net_content
       table.table.table-responsive.table-striped.table-hover
         tr
           th
-          th Target
-          th Gateway
+          th 目标
+          th 网关
           each route in network.routes
             tr
               td(width='3%')
@@ -28,21 +28,21 @@ block net_content
   form(method='POST' action='/controller/network/' + network.nwid + '/routes')
     .form-group.row
       .col-sm-12
-        label(for='target') Target:
+        label(for='target') 目标:
       .col-sm-12
         input#target.form-control(type='text' name='target' placeholder='e.g. 10.11.12.0/24' value=(undefined===route? '' : route.target))
 
     .form-group.row
       .col-sm-12
-        label(for='via') Gateway:
+        label(for='via') 网关:
       .col-sm-12
         input#via.form-control(type='text' name='via' placeholder='e.g. 172.16.2.1 or leave blank if the target is the ZT network' value=(undefined===route? '' : route.via))
 
     .form-group.row
       .col-sm-12
-        button.btn.btn-primary(type='submit') Submit
+        button.btn.btn-primary(type='submit') 提交
         = ' '
-        a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') Cancel
+        a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') 取消
 
   if errors
     .row

@@ -8,15 +8,15 @@ extends network_layout
 block net_content
   if network.deleted
     .alert.alert-success
-      strong #{network.name} (#{network.nwid}) was deleted
+      strong #{network.name} (#{network.nwid}) 被删除
 
   else
     .alert.alert-danger
-      strong Warning! Deleting a network cannot be undone
+      strong 警告无法撤消删除网络
     form(method='POST' action='')
-      button.btn.btn-danger(type='submit', name='delete') Delete #{network.name} (#{network.nwid})
+      button.btn.btn-danger(type='submit', name='delete') 删除 #{network.name} (#{network.nwid})
       = ' '
-      a.btn.btn-default(href='/controller/networks', name='cancel', role='button') Cancel
+      a.btn.btn-default(href='/controller/networks', name='cancel', role='button') 取消
 
   if errors
     ul

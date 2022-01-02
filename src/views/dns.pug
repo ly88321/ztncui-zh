@@ -10,7 +10,7 @@ block net_content
   if (!dns.domain && !(dns.servers && dns.servers.length > 0))
     .row
       .col-sm-12
-        b No DNS configuration on this network.
+        b 此网络上没有DNS配置.
   else
     .row
       .col-sm-2
@@ -27,27 +27,27 @@ block net_content
 
   .row
     .col-sm-12
-      h3 Change DNS configuration:
+      h3 更改DNS配置:
 
   form(method='POST' action='')
     .form-group.row
       .col-sm-12
-        label(for='domain') Domain:
+        label(for='domain') 域名:
       .col-sm-12
         input#domain.form-control(type='text' name='domain' value=dns.domain)
 
     .form-group.row
       .col-sm-12
-        label(for='servers') Servers:
+        label(for='servers') DNS服务器:
       .col-sm-12
         textarea#servers.form-control(type='text' name='servers' placeholder='(one IP address per line)')
           = !dns.servers ? '' : dns.servers.join('\n')
 
     .form-group.row
       .col-sm-12
-        button.btn.btn-primary(type='submit') Submit
+        button.btn.btn-primary(type='submit') 提交
         = ' '
-        a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') Cancel
+        a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') 取消
 
   if errors
     .row

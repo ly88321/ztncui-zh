@@ -11,8 +11,8 @@ block net_content
       table.table.table-responsive.table-striped.table-hover
         tr
           th
-          th IP range start
-          th IP range end
+          th IP范围开始
+          th IP范围结束
           each ipAssignmentPool in network.ipAssignmentPools
             tr
               td(width='3%')
@@ -23,26 +23,26 @@ block net_content
 
   .row
     .col-sm-12
-      h3 Add new IP Assignment Pool:
+      h3 添加新的IP分配池:
 
   form(method='POST' action='/controller/network/' + network.nwid + '/ipAssignmentPools')
     .form-group.row
       .col-sm-2
-        label(for='ipRangeStart') IP range start:
+        label(for='ipRangeStart') IP范围开始:
       .col-sm-12
         input#ipRangeStart.form-control(type='text' name='ipRangeStart' placeholder='IP range start' value=(undefined===ipAssignmentPool? '' : ipAssignmentPool.ipRangeStart))
 
     .form-group.row
       .col-sm-2
-        label(for='ipRangeEnd') IP range end:
+        label(for='ipRangeEnd') IP范围结束:
       .col-sm-12
         input#ipRangeEnd.form-control(type='text' name='ipRangeEnd' placeholder='IP range end' value=(undefined===ipAssignmentPool? '' : ipAssignmentPool.ipRangeEnd))
 
     .form-group.row
       .col-sm-12
-        button.btn.btn-primary(type='submit') Submit
+        button.btn.btn-primary(type='submit') 提交
         = ' '
-        a.btn.btn-default(href='/controller/network/' + network.nwid name='cancel' role='button') Cancel
+        a.btn.btn-default(href='/controller/network/' + network.nwid name='cancel' role='button') 取消
 
   if errors
     .row

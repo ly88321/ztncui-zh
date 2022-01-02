@@ -16,9 +16,9 @@ block content
         th(width='3%')
           = ''
         th(width='20%')
-          | Network name
+          | 网络名称
         th(width='20%')
-          | Network ID
+          | 网络ID
         th(width='8%')
           = ''
         th(width='12%')
@@ -36,12 +36,12 @@ block content
           td
             = network.nwid
           td
-            a(href=nwurl) detail
+            a(href=nwurl) 详情
           td
-            a(href=nwurl + '/easy') easy setup
+            a(href=nwurl + '/easy') 简易安装
           td
-            a(href=nwurl + "#members") members
+            a(href=nwurl + "#members") 成员
 
       else
         .alert.alert-info
-          strong There are no networks on this network controller - click "Add network" above to create a new network.
+          strong 此网络控制器上没有网络-单击上面的“添加网络”以创建新网络.

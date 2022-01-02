@@ -17,13 +17,13 @@ block content
     form(method='POST' action='')
       .form-group.row
         .col-sm-2
-          label(for='name') Network name:
+          label(for='name') 网络名称:
         .col-sm-10
           input#name.form-control(type='text' name='name' placeholder='Enter new network name' value=(undefined===name ? '' : name.name))
 
       .form-group.row
         .col-sm-12
-          button.btn.btn-primary(type='submit') Create Network
+          button.btn.btn-primary(type='submit') 创建网络
 
     if errors
       .row
