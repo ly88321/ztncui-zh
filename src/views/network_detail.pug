@@ -76,7 +76,7 @@ block net_content
           $.post(url, {'id': this.name, 'name': this.value});
         });
       });
-    h3#members Members (#{members.length})
+    h3#members 成员 (#{members.length})
     form(method='POST' action='')
       table.table.table-responsive.table-striped.table-hover
         tr
@@ -93,9 +93,9 @@ block net_content
           td(width='17%')
             | IP分配
           td(width='17%')
-            | Peer 状态
+            | 节点状态
           td(width='13%')
-            | Peer 地址 / 延迟
+            | 节点地址 / 延迟
         each member in members
           - const peer = member.peer;
           tr
@@ -119,19 +119,19 @@ block net_content
                   = ' '
               else
                 a(href=nwurl + '/member/' + member.id + '/ipAssignments')
-                  | IP assignment
+                  | IP分配
             td
               if (peer && peer.latency != -1 && peer.versionMajor != -1)
                 if (peer.latency != -1)
                   span(style='color: green;')
-                    | ONLINE (v#{peer.version})
+                    | 在线 (v#{peer.version})
                 else
                   span(style='color: orange;')
-                    | RELAY (v#{peer.version})
+                    | 转发 (v#{peer.version})
               else if (member.id == zt_address)
-                span(style='color: green;') CONTROLLER
+                span(style='color: green;') 控制器
               else
-                span(style='color: red;') OFFLINE
+                span(style='color: red;') 离线
             td
               if (peer)
                 each path in peer.paths
@@ -148,7 +148,7 @@ block net_content
 
   a.btn.btn-default(href='' name='refresh' role='button') 刷新
 
-  h3#detail Detail for network
+  h3#detail 网络详细信息
   each value, key in network
     .row(style='margin: 5px 0;')
       .col-sm-2

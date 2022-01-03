@@ -18,11 +18,11 @@ block net_content
       tr
         td(width='3%')
           input#6planeCheckBox.checkbox(type='checkbox' checked=(network.v6AssignMode['6plane']? true : false))
-        td ZT 6plane (/80 routable for each device)
+        td ZT 6plane (/每个设备80个可路由)
       tr
         td
           input#rfc4193CheckBox.checkbox(type='checkbox' checked=(network.v6AssignMode['rfc4193']? true : false))
-        td ZT rfc4193 (/128 for each device)
+        td ZT rfc4193 (/每个设备128个)
       tr
         td
           input#ztCheckBox.checkbox(type='checkbox' checked=(network.v6AssignMode['zt']? true : false))

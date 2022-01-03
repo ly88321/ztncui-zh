@@ -16,10 +16,10 @@ block net_content
 
     .row
       .col-sm-6
-        h4 Member name: 
+        h4 成员名称:
           b= member.name
       .col-sm-6.right
-        h4 ZeroTier address: 
+        h4 ZeroTier地址:
           b= member.id
 
     .row
@@ -27,7 +27,7 @@ block net_content
         table.table.table-responsive.table-striped.table-hover
           tr
             th(width='3%')
-            th IP address
+            th IP地址
 
           each ipAssignment, index in member.ipAssignments
             tr
@@ -52,8 +52,8 @@ block net_content
         table.table.table-responsive.table-striped.table-hover
           tr
             th
-            th Target
-            th Gateway
+            th 目标
+            th 网关
             each route in network.routes
               tr
                 td(width='3%')

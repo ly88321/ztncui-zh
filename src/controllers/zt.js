@@ -198,11 +198,11 @@ exports.routes = async function(nwid, route, action) {
     if (action === 'add') {
       routes.push(route);
     } else if (action === 'delete') {
-      throw new Error('Cannot delete non-existent route target');
+      throw new Error('无法删除不存在的路由目标');
     }
   } else {
     if (action === 'add') {
-      throw new Error('Route target is not unique');
+      throw new Error('路由目标不是唯一的');
     } else if (action === 'delete') {
       routes = routes.filter(rt => rt != route_to_del);
     }

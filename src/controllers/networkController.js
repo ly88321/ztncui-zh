@@ -57,10 +57,10 @@ exports.index = async function(req, res) {
 
   try {
     const zt_status = await zt.get_zt_status();
-    res.render('index', {title: 'ztncui', navigate: navigate, zt_status});
+    res.render('index', {title: 'ztncui控制器', navigate: navigate, zt_status});
   } catch (err) {
-    res.render('index', {title: 'ztncui',
-                      navigate: navigate, error: 'ERROR getting ZT status: ' + err});
+    res.render('index', {title: 'ztncui控制器',
+                      navigate: navigate, error: '获取ZT状态时出错: ' + err});
   }
 };
 
@@ -73,9 +73,9 @@ exports.network_list = async function(req, res) {
 
   try {
     networks = await zt.network_list();
-    res.render('networks', {title: 'Networks on this controller', navigate: navigate, networks: networks});
+    res.render('networks', {title: '此控制器上的网络', navigate: navigate, networks: networks});
   } catch (err) {
-    res.render('networks', {title: 'Networks on this controller', navigate: navigate, error: 'Error retrieving list of networks on this controller: ' + err});
+    res.render('networks', {title: '此控制器上的网络', navigate: navigate, error: '检索此控制器上的网络列表时出错: ' + err});
   }
 };
 
@@ -95,9 +95,9 @@ exports.network_detail = async function(req, res) {
       get_network_with_members(req.params.nwid),
       zt.get_zt_address()
     ]);
-    res.render('network_detail', {title: 'Network ' + network.name, navigate: navigate, network: network, members: members, zt_address: zt_address});
+    res.render('network_detail', {title: '网络 ' + network.name, navigate: navigate, network: network, members: members, zt_address: zt_address});
   } catch (err) {
-    res.render('network_detail', {title: 'Detail for network', navigate: navigate, error: 'Error resolving detail for network ' + req.params.nwid + ': ' + err});
+    res.render('network_detail', {title: '网络详细信息', navigate: navigate, error: '解析网络的详细信息时出错 ' + req.params.nwid + ': ' + err});
   }
 };
 
@@ -108,7 +108,7 @@ exports.network_create_get = function(req, res) {
       active: 'add_network',
     }
 
-  res.render('network_create', {title: 'Create network', navigate: navigate});
+  res.render('network_create', {title: '创建网络', navigate: navigate});
 };
 
 // Handle Network create on POST
@@ -118,7 +118,7 @@ exports.network_create_post = async function(req, res) {
       active: 'add_network',
     }
 
-  req.checkBody('name', 'Network name required').notEmpty();
+  req.checkBody('name', '需要网络名称').notEmpty();
 
   req.sanitize('name').escape();
   req.sanitize('name').trim();
@@ -128,14 +128,14 @@ exports.network_create_post = async function(req, res) {
   let name = { name: req.body.name };
 
   if (errors) {
-    res.render('network_create', {title: 'Create Network', navigate: navigate, name: name, errors: errors});
+    res.render('network_create', {title: '创建网络', navigate: navigate, name: name, errors: errors});
     return;
   } else {
     try {
       const network = await zt.network_create(name);
       res.redirect('/controller/network/' + network.nwid);
     } catch (err) {
-      res.render('network_detail', {title: 'Create Network - error', navigate: navigate, error: 'Error creating network ' + name.name});
+      res.render('network_detail', {title: '创建网络 - 错误', navigate: navigate, error: '创建网络时出错 ' + name.name});
     }
   }
 };
@@ -150,10 +150,10 @@ exports.network_delete_get = async function(req, res) {
 
   try {
     const network = await zt.network_detail(req.params.nwid);
-    res.render('network_delete', {title: 'Delete network', navigate: navigate,
+    res.render('network_delete', {title: '删除网络', navigate: navigate,
                                     nwid: req.params.nwid, network: network});
   } catch (err) {
-    res.render('network_delete', {title: 'Delete network', navigate: navigate, error: 'Error resolving network ' + req.params.nwid + ': ' + err});
+    res.render('network_delete', {title: '删除网络', navigate: navigate, error: '解析网络时出错 ' + req.params.nwid + ': ' + err});
   }
 };
 
@@ -167,9 +167,9 @@ exports.network_delete_post = async function(req, res) {
 
   try {
     const network = await zt.network_delete(req.params.nwid);
-    res.render('network_delete', {title: 'Delete network', navigate: navigate, network: network});
+    res.render('network_delete', {title: '删除网络', navigate: navigate, network: network});
   } catch (err) {
-    res.render('network_delete', {title: 'Delete network', navigate: navigate, error: 'Error deleting network ' + req.params.nwid + ': ' + err});
+    res.render('network_delete', {title: '删除网络', navigate: navigate, error: '删除网络时候出错 ' + req.params.nwid + ': ' + err});
   }
 };
 
@@ -194,7 +194,7 @@ exports.network_object = async function(req, res) {
       res.send(html);
     });
   } catch (err) {
-    res.render(req.params.object, {title: req.params.object, navigate: navigate, error: 'Error resolving detail for network ' + req.params.nwid + ': ' + err});
+    res.render(req.params.object, {title: req.params.object, navigate: navigate, error: '解析网络的详细信息时出错 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -206,7 +206,7 @@ exports.name = async function(req, res) {
       whence: '/controller/networks'
     }
 
-  req.checkBody('name', 'Network name required').notEmpty();
+  req.checkBody('name', '需要网络名称').notEmpty();
   req.sanitize('name').escape();
   req.sanitize('name').trim();
 
@@ -215,12 +215,12 @@ exports.name = async function(req, res) {
   let name = { name: req.body.name };
 
   if (errors) {
-    console.error("network name validation errors", errors);
+    console.error("网络名称验证错误", errors);
   } else {
     try {
       const network = await zt.network_object(req.params.nwid, name);
     } catch ( err) {
-      console.error("Error renaming network " + req.params.nwid, err);
+      console.error("重命名网络时出错 " + req.params.nwid, err);
     }
   }
   res.redirect('/controller/network/' + req.params.nwid);
@@ -234,12 +234,12 @@ exports.ipAssignmentPools = async function(req, res) {
       whence: ''
     }
 
-  req.checkBody('ipRangeStart', 'IP range start required').notEmpty();
-  req.checkBody('ipRangeStart', 'IP range start needs a valid IPv4 or IPv6 address').isIP();
+  req.checkBody('ipRangeStart', '需要IP起始地址').notEmpty();
+  req.checkBody('ipRangeStart', 'IP起始地址需要有效的IPv4或IPv6地址').isIP();
   req.sanitize('ipRangeStart').escape();
   req.sanitize('ipRangeStart').trim();
-  req.checkBody('ipRangeEnd', 'IP range end required').notEmpty();
-  req.checkBody('ipRangeEnd', 'IP range end needs a valid IPv4 or IPv6 address').isIP();
+  req.checkBody('ipRangeEnd', '需要IP结束地址').notEmpty();
+  req.checkBody('ipRangeEnd', 'IP结束地址需要有效的IPv4或IPv6地址').isIP();
   req.sanitize('ipRangEnd').escape();
   req.sanitize('ipRangEnd').trim();
 
@@ -255,17 +255,17 @@ exports.ipAssignmentPools = async function(req, res) {
     try {
       const network = await zt.network_detail(req.params.nwid);
       navigate.whence = '/controller/network/' + network.nwid;
-      res.render('ipAssignmentPools', {title: 'ipAssignmentPools', navigate: navigate, ipAssignmentPool: ipAssignmentPool, network: network, errors: errors});
+      res.render('ipAssignmentPools', {title: 'ip分配池', navigate: navigate, ipAssignmentPool: ipAssignmentPool, network: network, errors: errors});
     } catch (err) {
-      res.render('ipAssignmentPools', {title: 'ipAssignmentPools', navigate: navigate, error: 'Error resolving network detail for network ' + req.params.nwid + ': ' + err});
+      res.render('ipAssignmentPools', {title: 'ip分配池', navigate: navigate, error: '解析网络的网络详细信息时出错 ' + req.params.nwid + ': ' + err});
     }
   } else {
     try {
       const network = await zt.ipAssignmentPools(req.params.nwid, ipAssignmentPool, 'add');
       navigate.whence = '/controller/network/' + network.nwid;
-      res.render('ipAssignmentPools', {title: 'ipAssignmentPools', navigate: navigate, ipAssignmentPool: ipAssignmentPool, network: network});
+      res.render('ipAssignmentPools', {title: 'ip分配池', navigate: navigate, ipAssignmentPool: ipAssignmentPool, network: network});
     } catch (err) {
-      res.render('ipAssignmentPools', {title: 'ipAssignmentPools', navigate: navigate, error: 'Error applying IP Assignment Pools for network ' + req.params.nwid + ': ' + err});
+      res.render('ipAssignmentPools', {title: 'ip分配池', navigate: navigate, error: '应用ip分配池时出错 ' + req.params.nwid + ': ' + err});
     }
   }
 }
@@ -283,9 +283,9 @@ exports.routes = async function (req, res) {
       whence: ''
     }
 
-  req.checkBody('target', 'Target network is required').notEmpty();
+  req.checkBody('target', '目标网络是必需的').notEmpty();
   req.sanitize('target').trim();
-  req.checkBody('target', 'Target network must be valid CIDR format')
+  req.checkBody('target', '目标网络必须是有效的CIDR格式')
     .custom(value => {
       const parts = value.split('/');
       const ipv4 = new ipaddr.Address4(parts[0]);
@@ -303,7 +303,7 @@ exports.routes = async function (req, res) {
       }
       return isValidIPv4orIPv6 && isValidPrefix(parts[1], prefixMax);
     });
-  req.checkBody('via', 'Gateway must be a valid IPv4 or IPv6 address').optional({ checkFalsy: true }).isIP();
+  req.checkBody('via', '网关必须是有效的IPv4或IPv6地址').optional({ checkFalsy: true }).isIP();
   req.sanitize('via').escape();
   req.sanitize('via').trim();
   if (! req.body.via) {
@@ -322,17 +322,17 @@ exports.routes = async function (req, res) {
     try {
       const network = await zt.network_detail(req.params.nwid);
       navigate.whence = '/controller/network/' + network.nwid;
-      res.render('routes', {title: 'routes', navigate: navigate, route: route, network: network, errors: errors});
+      res.render('routes', {title: '路由', navigate: navigate, route: route, network: network, errors: errors});
     } catch (err) {
-      res.render('routes', {title: 'routes', navigate: navigate, error: 'Error resolving network detail'});
+      res.render('routes', {title: '路由', navigate: navigate, error: '解析网络详细信息时出错'});
     }
   } else {
     try {
       const network = await zt.routes(req.params.nwid, route, 'add');
       navigate.whence = '/controller/network/' + network.nwid;
-      res.render('routes', {title: 'routes', navigate: navigate, route: route, network: network});
+      res.render('routes', {title: '路由', navigate: navigate, route: route, network: network});
     } catch (err) {
-      res.render('routes', {title: 'routes', navigate: navigate, error: 'Error adding route for network ' + req.params.nwid + ': ' + err});
+      res.render('routes', {title: '路由', navigate: navigate, error: '为网络添加路由时出错 ' + req.params.nwid + ': ' + err});
     }
   }
 
@@ -356,9 +356,9 @@ exports.route_delete = async function (req, res) {
   try {
     const network = await zt.routes(req.params.nwid, route, 'delete');
     navigate.whence = '/controller/network/' + network.nwid;
-    res.render('routes', {title: 'routes', navigate: navigate, route: route, network: network});
+    res.render('routes', {title: '路由', navigate: navigate, route: route, network: network});
   } catch (err) {
-    res.render('routes', {title: 'routes', navigate: navigate, error: 'Error deleting route for network ' + req.params.nwid + ': ' + err});
+    res.render('routes', {title: '路由', navigate: navigate, error: '删除网络的路由时出错 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -380,9 +380,9 @@ exports.ipAssignmentPool_delete = async function (req, res) {
   try {
     const network = await zt.ipAssignmentPools(req.params.nwid, ipAssignmentPool, 'delete');
     navigate.whence = '/controller/network/' + network.nwid;
-    res.render('ipAssignmentPools', {title: 'ipAssignmentPools', navigate: navigate, ipAssignmentPool: ipAssignmentPool, network: network});
+    res.render('ipAssignmentPools', {title: 'ip分配池', navigate: navigate, ipAssignmentPool: ipAssignmentPool, network: network});
   } catch (err) {
-    res.render('ipAssignmentPools', {title: 'ipAssignmentPools', navigate: navigate, error: 'Error deleting IP Assignment Pool for network ' + req.params.nwid + ': ' + err});
+    res.render('ipAssignmentPools', {title: 'ip分配池', navigate: navigate, error: '删除网络的IP分配池时出错 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -402,9 +402,9 @@ exports.private = async function (req, res) {
   try {
     const network = await zt.network_object(req.params.nwid, private);
     navigate.whence = '/controller/network/' + network.nwid;
-    res.render('private', {title: 'private', navigate: navigate, network: network});
+    res.render('private', {title: '私有', navigate: navigate, network: network});
   } catch (err) {
-    res.render('private', {title: 'private', navigate: navigate, error: 'Error applying private for network ' + req.params.nwid + ': ' + err});
+    res.render('private', {title: '私有', navigate: navigate, error: '应用专用网络时出错 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -424,9 +424,9 @@ exports.v4AssignMode = async function (req, res) {
   try {
     const network = await zt.network_object(req.params.nwid, v4AssignMode);
     navigate.whence = '/controller/network/' + network.nwid;
-    res.render('v4AssignMode', {title: 'v4AssignMode', navigate: navigate, network: network});
+    res.render('v4AssignMode', {title: 'V4分配模式', navigate: navigate, network: network});
   } catch (err) {
-    res.render('v4AssignMode', {title: 'v4AssignMode', navigate: navigate, error: 'Error applying v4AssignMode for network ' + req.params.nwid + ': ' + err});
+    res.render('v4AssignMode', {title: 'V4分配模式', navigate: navigate, error: '为网络应用V4分配模式时出错 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -451,9 +451,9 @@ exports.v6AssignMode = async function (req, res) {
   try {
     const network = await zt.network_object(req.params.nwid, v6AssignMode);
     navigate.whence = '/controller/network/' + network.nwid;
-    res.render('v6AssignMode', {title: 'v6AssignMode', navigate: navigate, network: network});
+    res.render('v6AssignMode', {title: 'V6分配模式', navigate: navigate, network: network});
   } catch (err) {
-    res.render('v6AssignMode', {title: 'v6AssignMode', navigate: navigate, error: 'Error applying v6AssignMode for network ' + req.params.nwid + ': ' + err});
+    res.render('v6AssignMode', {title: 'V6分配模式', navigate: navigate, error: '为网络应用V6分配模式时出错 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -480,9 +480,9 @@ exports.dns = async function (req, res) {
   try {
     const network = await zt.network_object(req.params.nwid, dns);
     navigate.whence = '/controller/network/' + network.nwid;
-    res.render('dns', {title: 'dns', navigate: navigate, network: network});
+    res.render('dns', {title: 'DNS', navigate: navigate, network: network});
   } catch (err) {
-    res.render('dns', {title: 'dns', navigate: navigate, error: 'Error updating dns for network ' + req.params.nwid + ': ' + err});
+    res.render('dns', {title: 'DNS', navigate: navigate, error: '更新网络的dns时出错 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -497,10 +497,10 @@ exports.member_detail = async function(req, res) {
   try {
     const {network, member} = await get_network_member(req.params.nwid, req.params.id);
     navigate.whence = '/controller/network/' + network.nwid + '#members';
-    res.render('member_detail', {title: 'Network member detail', navigate: navigate, network: network, member: member});
+    res.render('member_detail', {title: '网络成员详细信息', navigate: navigate, network: network, member: member});
   } catch (err) {
     console.error(err);
-    res.render('error', {title: req.params.object, navigate: navigate, error: 'Error resolving detail for member ' + req.params.id + ' of network ' + req.params.nwid + ': ' + err});
+    res.render('error', {title: req.params.object, navigate: navigate, error: '解析成员的详细信息时出错 ' + req.params.id + ' 从网络 ' + req.params.nwid + ': ' + err});
   }
 };
 
@@ -525,7 +525,7 @@ exports.member_object = async function(req, res) {
       res.send(html);
     });
   } catch (err) {
-    res.render(req.params.object, {title: req.params.object, navigate: navigate, error: 'Error resolving detail for member ' + req.params.id + ' of network ' + req.params.nwid + ': ' + err});
+    res.render(req.params.object, {title: req.params.object, navigate: navigate, error: '解析成员的详细信息时出错 ' + req.params.id + ' 从网络 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -539,9 +539,9 @@ exports.easy_get = async function(req, res) {
 
   try {
     const network = await zt.network_detail(req.params.nwid);
-    res.render('network_easy', {title: 'Easy setup of network', navigate: navigate, network: network});
+    res.render('network_easy', {title: '网络的简易设置', navigate: navigate, network: network});
   } catch (err) {
-    res.render('network_easy', {title: 'Easy setup of network', navigate: navigate, error: 'Error resolving detail for network ' + req.params.nwid + ': ' + err});
+    res.render('network_easy', {title: '网络的简易设置', navigate: navigate, error: '解析网络的详细信息时出错 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -553,23 +553,23 @@ exports.easy_post = async function(req, res) {
       whence: '/controller/networks'
     }
 
-  req.checkBody('networkCIDR', 'Network address is required').notEmpty();
+  req.checkBody('networkCIDR', '网络地址是必需的').notEmpty();
   req.sanitize('networkCIDR').trim();
-  req.checkBody('networkCIDR', 'Network address must be in CIDR notation')
+  req.checkBody('networkCIDR', '网络地址必须使用CIDR表示法')
     .custom(value => {
       const parts = value.split('/');
       const ipv4 = new ipaddr.Address4(parts[0]);
       return ipv4.isValid() && isValidPrefix(parts[1], 32);
     });
-  req.checkBody('poolStart', 'Start of IP assignment pool is required')
+  req.checkBody('poolStart', 'ip分配池起始地址是必需的')
     .notEmpty();
-  req.checkBody('poolStart', 'Start of IP assignment pool must be valid IPv4 address')
+  req.checkBody('poolStart', 'ip分配池起始地址必须是有效的IPv4地址')
     .isIP(4);
   req.sanitize('poolStart').escape();
   req.sanitize('poolStart').trim();
-  req.checkBody('poolEnd', 'End of IP assignment pool is required')
+  req.checkBody('poolEnd', 'ip分配池结束地址是必需的')
     .notEmpty();
-  req.checkBody('poolEnd', 'End of IP assignment pool must be valid IPv4 address')
+  req.checkBody('poolEnd', 'ip分配池结束地址必须是有效的IPv4地址')
     .isIP(4);
   req.sanitize('poolEnd').escape();
   req.sanitize('poolEnd').trim();
@@ -601,16 +601,16 @@ exports.easy_post = async function(req, res) {
         v4AssignMode: v4AssignMode
       };
 
-    res.render('network_easy', {title: 'Easy setup of network', navigate: navigate, network: network, errors: errors});
+    res.render('network_easy', {title: '网络的简易设置', navigate: navigate, network: network, errors: errors});
   } else {
     try {
       const network = await zt.network_easy_setup(req.params.nwid,
                                                   routes,
                                                   ipAssignmentPools,
                                                   v4AssignMode);
-      res.render('network_easy', {title: 'Easy setup of network', navigate: navigate, network: network, message: 'Network setup succeeded'});
+      res.render('network_easy', {title: '网络的简易设置', navigate: navigate, network: network, message: 'Network setup succeeded'});
     } catch (err) {
-      res.render('network_easy', {title: 'Easy setup of network', navigate: navigate, error: 'Error resolving detail for network ' + req.params.nwid + ': ' + err});
+      res.render('network_easy', {title: '网络的简易设置', navigate: navigate, error: '解析网络的详细信息时出错 ' + req.params.nwid + ': ' + err});
     }
   }
 }
@@ -627,12 +627,12 @@ exports.members = async function(req, res) {
 
   if (req.method === 'POST') {
 
-    req.checkBody('id', 'Member ID is required').notEmpty();
+    req.checkBody('id', '成员ID是必需的').notEmpty();
     req.sanitize('id').trim();
     req.sanitize('id').escape();
 
     if (req.body.auth) {
-      req.checkBody('auth', 'Authorization state must be boolean').isBoolean();
+      req.checkBody('auth', '授权状态必须为布尔值').isBoolean();
       req.sanitize('auth').trim();
       req.sanitize('auth').escape();
 
@@ -651,7 +651,7 @@ exports.members = async function(req, res) {
         }
       }
     } else if (req.body.activeBridge) {
-      req.checkBody('activeBridge', 'activeBridge state must be boolean').isBoolean();
+      req.checkBody('activeBridge', '活动网桥状态必须为布尔值').isBoolean();
       req.sanitize('activeBridge').trim();
       req.sanitize('activeBridge').escape();
 
@@ -712,12 +712,12 @@ exports.member_delete = async function(req, res) {
     member.name = name || '';
 
     navigate.whence = '/controller/network/' + network.nwid;
-    res.render('member_delete', {title: 'Delete member from ' + network.name,
+    res.render('member_delete', {title: '删除成员从 ' + network.name,
                                   navigate: navigate, network: network, member: member});
   } catch (err) {
-    res.render('member_delete', {title: 'Delete member from network', navigate: navigate,
-                    error: 'Error resolving detail for member ' + req.params.id
-                              + ' of network ' + req.params.nwid + ': ' + err});
+    res.render('member_delete', {title: '从网络中删除成员', navigate: navigate,
+                    error: '解析成员的详细信息时出错 ' + req.params.id
+                              + ' 从网络 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -740,12 +740,12 @@ exports.delete_ip = async function(req, res) {
       res.redirect('/controller/network/' + network.nwid + '/member/' +
                                                   member.id + '/ipAssignments');
     }
-    res.render('ipAssignments', {title: 'ipAssignments ' + network.name,
+    res.render('ipAssignments', {title: 'ip分配 ' + network.name,
           navigate: navigate, index: req.params.index, network: network, member: member});
   } catch (err) {
-    res.render('ipAssignments', {title: 'ipAssignments', navigate: navigate,
-                    error: 'Error resolving detail for member ' + req.params.id
-                              + ' of network ' + req.params.nwid + ': ' + err});
+    res.render('ipAssignments', {title: 'ip分配', navigate: navigate,
+                    error: '解析成员的详细信息时出错 ' + req.params.id
+                              + ' 从网络 ' + req.params.nwid + ': ' + err});
   }
 }
 
@@ -763,9 +763,9 @@ exports.assign_ip = async function(req, res) {
     throw err;
   }
 
-  req.checkBody('ipAddress', 'IP address required').notEmpty();
-  req.checkBody('ipAddress', 'IP address must be a valid IPv4 or IPv6 address').isIP();
-  req.checkBody('ipAddress', 'IP address must fall within a managed route')
+  req.checkBody('ipAddress', '需要IP地址').notEmpty();
+  req.checkBody('ipAddress', 'IP地址必须是有效的IPv4或IPv6地址').isIP();
+  req.checkBody('ipAddress', 'IP地址必须位于托管路由内')
     .custom(value => {
       let ipAddressInManagedRoute = false;
       network.routes.forEach(function(item) {
@@ -799,12 +799,12 @@ exports.assign_ip = async function(req, res) {
 
     member.name = await storage.getItem(member.id) | '';
 
-    res.render('ipAssignments', {title: 'ipAssignments', navigate: navigate,
+    res.render('ipAssignments', {title: 'ip分配', navigate: navigate,
                   ipAssignment: ipAssignment, network: network, member: member,
                                                                errors: errors});
   } catch (err) {
-    res.render('ipAssignments', {title: 'ipAssignments', navigate: navigate,
-                    error: 'Error resolving detail for member ' + req.params.id
-                              + ' of network ' + req.params.nwid + ': ' + err});
+    res.render('ipAssignments', {title: 'ip分配', navigate: navigate,
+                    error: '解析成员的详细信息时出错 ' + req.params.id
+                              + ' 从网络 ' + req.params.nwid + ': ' + err});
   }
 }

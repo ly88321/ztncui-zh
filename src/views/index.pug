@@ -8,13 +8,9 @@ extends controller_layout
 block content
   h1!= title
 
-  h2
-    a(href='https://zerotier.com' target='_blank') ZeroTier 
-    | 网络控制器UI by 
-    a(href='https://key-networks.com' target='_blank') Key Networks 中文版
 
   if error
-     b #{error}
+    b #{error}
   else
     h4 此网络控制器的零层地址为 <b>#{zt_status.address}</b>
     h4 ZeroTier 版本 <b>#{zt_status.version}</b>

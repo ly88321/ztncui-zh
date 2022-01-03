@@ -21,7 +21,7 @@ function guest_only(req, res, next) {
 
 /* GET home page. */
 router.get('/', guest_only, function(req, res, next) {
-  res.render('front_door', {title: 'ztncui'});
+  res.render('front_door', {title: 'ztncui控制器'});
 });
 
 router.get('/logout', function(req, res) {
@@ -33,13 +33,13 @@ router.get('/logout', function(req, res) {
 router.get('/login', guest_only, function(req, res) {
   let message = null;
   if (req.session.error) {
-    if (req.session.error !== 'Access denied!') {
+    if (req.session.error !== '拒绝访问!') {
       message = req.session.error;
     }
   } else {
     message = req.session.success;
   }
-  res.render('login', { title: 'Login', message: message });
+  res.render('login', { title: '登录', message: message });
 });
 
 router.post('/login', async function(req, res) {
@@ -47,7 +47,7 @@ router.post('/login', async function(req, res) {
     if (user) {
       req.session.regenerate(function() {
         req.session.user = user;
-        req.session.success = 'Authenticated as ' + user.name;
+        req.session.success = '认证成功，用户为 ' + user.name;
         if (user.pass_set) {
           res.redirect(req.query.redirect || '/controller');
         } else {
@@ -55,7 +55,7 @@ router.post('/login', async function(req, res) {
         }
       });
     } else {
-      req.session.error = 'Authentication failed, please check your username and password.'
+      req.session.error = '身份验证失败，请检查您的用户名和密码.'
       res.redirect('/login');
     }
   });

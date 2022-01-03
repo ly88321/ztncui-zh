@@ -29,12 +29,12 @@ exports.authenticate = async function(name, pass, callback) {
     throw err;
   }
   let user = users[name];
-  if (!user) return callback(new Error('cannot find user'));
+  if (!user) return callback(new Error('找不到用户'));
   let verified = await hash_check(name, pass);
   if (verified) {
     return callback(null, user);
   } else {
-    return callback(new Error('invalid password'));
+    return callback(new Error('无效密码'));
   }
 }
 
@@ -42,7 +42,7 @@ exports.restrict = function(req, res, next) {
   if (req.session.user) {
     next();
   } else {
-    req.session.error = 'Access denied!';
+    req.session.error = '拒绝访问!';
     res.redirect('/login?redirect=' + encodeURIComponent(req.originalUrl));
   }
 }

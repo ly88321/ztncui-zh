@@ -51,9 +51,9 @@ exports.users_list = async function(req, res) {
 
   try {
     const users = await get_users();
-    res.render('users', { title: 'Admin users', navigate: navigate, message: 'List of users with admin priviledges', users: users });
+    res.render('users', { title: '管理用户', navigate: navigate, message: '列出具有管理员权限的用户列表', users: users });
   } catch (err) {
-    res.render('users', { title: 'Admin users', navigate: navigate, message: 'Error', users: null, error: 'Error returning list of users: ' + err });
+    res.render('users', { title: '管理用户', navigate: navigate, message: '错误', users: null, error: '返回用户列表时出错: ' + err });
   }
 }
 
@@ -69,7 +69,7 @@ exports.password_get = async function(req, res) {
       password1: null,
       password2: null
     };
-  res.render('password', { title: 'Set password', navigate: navigate, user: user, readonly: true, message: '' });
+  res.render('password', { title: '设置密码', navigate: navigate, user: user, readonly: true, message: '' });
 }
 
 exports.password_post = async function(req, res) {
@@ -78,16 +78,16 @@ exports.password_post = async function(req, res) {
       active: 'users',
     }
 
-  req.checkBody('username', 'Username required').notEmpty();
+  req.checkBody('username', '需要用户名').notEmpty();
   req.sanitize('username').escape();
   req.sanitize('username').trim();
 
-  req.checkBody('password1', 'Password required').notEmpty();
-  req.checkBody('password1', 'Minimum password length is ' + min_pass_len + ' characters').isLength({ min: min_pass_len, max: 160 });
+  req.checkBody('password1', '需要密码').notEmpty();
+  req.checkBody('password1', '最小密码长度为 ' + min_pass_len + ' 字符').isLength({ min: min_pass_len, max: 160 });
 
-  req.checkBody('password2', 'Please re-enter password').notEmpty();
-  req.checkBody('password2', 'Minimum password length is ' + min_pass_len + ' characters').isLength({ min: min_pass_len, max: 160 });
-  req.checkBody('password2', 'Passwords are not the same').equals(req.body.password1);
+  req.checkBody('password2', '请重新输入密码').notEmpty();
+  req.checkBody('password2', '最小密码长度为 ' + min_pass_len + ' 字符').isLength({ min: min_pass_len, max: 160 });
+  req.checkBody('password2', '两次输入密码不一样').equals(req.body.password1);
 
   const errors = req.validationErrors();
 
@@ -98,8 +98,8 @@ exports.password_post = async function(req, res) {
         password1: req.body.password1,
         password2: req.body.password2
       };
-    const message = 'Please check errors below';
-    res.render('password', { title: 'Set password', navigate: navigate, user: user, readonly: true, message: message, errors: errors });
+    const message = '请检查下面的错误';
+    res.render('password', { title: '设置密码', navigate: navigate, user: user, readonly: true, message: message, errors: errors });
   } else {
     let pass_set = true;
     if (req.body.pass_set === 'check') pass_set = false;
@@ -123,8 +123,8 @@ exports.password_post = async function(req, res) {
 
     users = await update_users(users);
 
-    const message = 'Successfully set password for ' + req.body.username;
-    res.render('password', { title: 'Set password', navigate: navigate, user: user, readonly: true, message: message });
+    const message = '已成功设置的密码为用户 ' + req.body.username;
+    res.render('password', { title: '设置密码', navigate: navigate, user: user, readonly: true, message: message });
   }
 }
 
@@ -141,7 +141,7 @@ exports.user_create_get = async function(req, res) {
       password2: null
     };
 
-  res.render('password', { title: 'Create new admin user', navigate: navigate, user: user, readonly: false});
+  res.render('password', { title: '创建新的管理员用户', navigate: navigate, user: user, readonly: false});
 }
 
 exports.user_create_post = async function(req, res) {
@@ -168,7 +168,7 @@ exports.user_delete = async function(req, res) {
   const user = users[req.params.name];
 
   if (user && (req.session.user.name === user.name)) {
-    res.render('user_delete', { title: 'Delete user', navigate: navigate, user: user, self_delete: true });
+    res.render('user_delete', { title: '删除用户', navigate: navigate, user: user, self_delete: true });
   }
 
   if (req.body.delete === 'delete') {
@@ -176,15 +176,15 @@ exports.user_delete = async function(req, res) {
       const deleted_user = { name: user.name };
       delete users[user.name];
       users = await update_users(users);
-      res.render('user_delete', { title: 'Deleted user', navigate: navigate, user: deleted_user, deleted: true });
+      res.render('user_delete', { title: '删除用户', navigate: navigate, user: deleted_user, deleted: true });
     } else {
-      res.render('user_delete', { title: 'Delete user', navigate: navigate, user: null });
+      res.render('user_delete', { title: '删除用户', navigate: navigate, user: null });
     }
   } else {
     if (user) {
-      res.render('user_delete', { title: 'Delete user', navigate: navigate, user: user });
+      res.render('user_delete', { title: '删除用户', navigate: navigate, user: user });
     } else {
-      res.render('user_delete', { title: 'Delete user', navigate: navigate, user: null });
+      res.render('user_delete', { title: '删除用户', navigate: navigate, user: null });
     }
   }
 }
