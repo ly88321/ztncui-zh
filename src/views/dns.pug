@@ -4,7 +4,7 @@
   Licensed under GPLv3 - see LICENSE for details.
 
 extends network_layout
-
+block title
 block net_content
   - const dns = network.dns || {};
   if (!dns.domain && !(dns.servers && dns.servers.length > 0))
